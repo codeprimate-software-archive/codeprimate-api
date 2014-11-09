@@ -80,7 +80,7 @@ public abstract class ArrayUtils {
    * @see #getFirst(Object[])
    */
   public static <T> T getLast(final T... array) {
-    return (array != null && array.length > 0 ? array[array.length - 1] : null);
+    return (!isEmpty(array) ? array[array.length - 1] : null);
   }
 
   /**
