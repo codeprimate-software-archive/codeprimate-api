@@ -1,0 +1,5 @@
+Codeprimate Core API
+Copyright 2014-present Codeprimate, LLC
+
+This product includes software developed at
+Coderpimate, LLC (http://www.codeprimate.org/).

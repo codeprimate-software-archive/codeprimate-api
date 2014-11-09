@@ -17,6 +17,6 @@ tested in production.  While the corresponding test suite classes have been incl
 is incomplete, and full test coverage may not be done until these classes/components have been promoted to
 the cp-elements API/Framework.
 
-This software is use-as-is, with not explicit or implied WARRANTIES, SUPPORT or LIABILITIES.
+The software is licensed under the Apache 2 Software License Agreement.
 
 Thanks.
