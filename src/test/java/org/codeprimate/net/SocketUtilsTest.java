@@ -69,7 +69,7 @@ public class SocketUtilsTest {
 
   @Test
   public void testCloseSocketWithNull() {
-    assertTrue(SocketUtils.close((Socket) null));
+    assertFalse(SocketUtils.close((Socket) null));
   }
 
   @Test
@@ -102,7 +102,7 @@ public class SocketUtilsTest {
 
   @Test
   public void testCloseServerSocketWithNull() {
-    assertTrue(SocketUtils.close((ServerSocket) null));
+    assertFalse(SocketUtils.close((ServerSocket) null));
   }
 
 }

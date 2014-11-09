@@ -65,7 +65,7 @@
     <repository>
       <id>libs-release</id>
       <name>Spring Maven libs-release Repository</name>
-      <url>http://repo.springframework.org/libs-release</url>
+      <url>http://repo.spring.org/libs-release</url>
     </repository>
     -->
     <repository>
@@ -85,6 +85,13 @@
   </repositories>
 
   <dependencies>
+    <dependency>
+      <groupId>com.sun.tools</groupId>
+      <artifactId>attach-api</artifactId>
+      <version>${java.version}</version>
+      <scope>system</scope>
+      <systemPath>${java.home}/../lib/tools.jar</systemPath>
+    </dependency>
     <!-- Core Spring Framework -->
     <!--
     <dependency>
@@ -214,6 +221,24 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+      <version>${jmock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-legacy</artifactId>
+      <version>${jmock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-script</artifactId>
+      <version>${jmock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
@@ -228,18 +253,22 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.2</version>
-          <configuration>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <!--
+          <compilerArguments>
             <classpath>${java.home}/lib/tools.jar</classpath>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+          </compilerArguments>
+          -->
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

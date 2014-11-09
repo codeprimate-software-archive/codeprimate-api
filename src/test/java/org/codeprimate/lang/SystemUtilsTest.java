@@ -21,9 +21,9 @@ public class SystemUtilsTest {
   public void testIsJavaVersionAtLeast() {
     assertTrue(SystemUtils.isJavaVersionAtLeast("1.6"));
     assertTrue(SystemUtils.isJavaVersionAtLeast("1.6.0_1"));
+    assertTrue(SystemUtils.isJavaVersionAtLeast("1.7"));
     // note, the expected version value should be set to the next version of the Java Runtime Environment (JRE)
-    // not currently available.
-    assertFalse(SystemUtils.isJavaVersionAtLeast("1.7"));
+    assertFalse(SystemUtils.isJavaVersionAtLeast("1.8"));
   }
 
   @Test

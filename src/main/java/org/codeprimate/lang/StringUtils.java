@@ -191,7 +191,7 @@ public abstract class StringUtils {
    * @throws NullPointerException if the String value is null.
    */
   public static String pad(final String value, final char paddingCharacter, final int length) {
-    assert value != null : "The String value to pad cannot be null!";
+    Assert.notNull(value, "The String value to pad cannot be null!");
 
     StringBuilder buffer = new StringBuilder(value);
 

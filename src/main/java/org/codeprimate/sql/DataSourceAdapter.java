@@ -3,6 +3,8 @@ package org.codeprimate.sql;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 /**
@@ -46,6 +48,11 @@ public class DataSourceAdapter implements DataSource {
 
   @Override
   public void setLoginTimeout(final int seconds) throws SQLException {
+    throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_EXCEPTION_MESSAGE);
+  }
+
+  //@Override
+  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
     throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_EXCEPTION_MESSAGE);
   }
 
