@@ -11,8 +11,8 @@
   <name>cp-core</name>
   <description>
     Codeprimate common, core API and Java Class Library for building Java applications.  This project is an experimental
-    API used to build useful utilities and to encapsulate common design patterns that reoccurr over and over during
-    software development.
+    API used to build useful utilities and to encapsulate common design patterns that re-occur over and over during
+    software development rather than re-write these utilities for each software development project.
   </description>
   <url>http://www.codeprimate.org/</url>
 
