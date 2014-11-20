@@ -39,6 +39,8 @@ import org.codeprimate.io.FileUtils;
 import org.codeprimate.io.IOUtils;
 import org.codeprimate.lang.Assert;
 import org.codeprimate.lang.StringUtils;
+import org.codeprimate.lang.SystemUtils;
+import org.codeprimate.process.ProcessWrapper;
 
 /**
  * The ProcessUtils class is an abstract utility class for controlling, evaluating and interacting with OS processes.
@@ -117,7 +119,7 @@ public abstract class ProcessUtils {
     return readPid(pidFile);
   }
 
-  protected static File findPidFile(final File workingDirectory) {
+  public static File findPidFile(final File workingDirectory) {
     Assert.legalArgument(FileUtils.isDirectory(workingDirectory), String.format(
       "The file system pathname (%1$s) is not a valid directory!", workingDirectory));
 
@@ -149,6 +151,22 @@ public abstract class ProcessUtils {
     finally {
       IOUtils.close(fileReader);
     }
+  }
+
+  public static void kill(final int processId) {
+    String killCommand = String.format("%1$s %2$d", (SystemUtils.isWindows() ? "taskkill /F /PID" : "kill -9"),
+      processId);
+
+    try {
+      Runtime.getRuntime().exec(killCommand);
+    }
+    catch (IOException e) {
+      throw new ProcessUnresponsiveException(String.format("Failed to stop process with PID (%1$d)!", processId), e);
+    }
+  }
+
+  public static void kill(final ProcessWrapper process) {
+    kill(findAndReadPid(process.getWorkingDirectory()));
   }
 
   public static void registerProcessShutdownHook(final Process process) {

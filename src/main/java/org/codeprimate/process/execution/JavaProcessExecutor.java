@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.codeprimate.process;
+package org.codeprimate.process.execution;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,9 @@ import java.util.List;
 import org.codeprimate.io.FileSystemUtils;
 import org.codeprimate.lang.Assert;
 import org.codeprimate.lang.StringUtils;
+import org.codeprimate.process.ProcessConfiguration;
+import org.codeprimate.process.ProcessInputStreamListener;
+import org.codeprimate.process.ProcessWrapper;
 
 /**
  * The JavaProcessExecutor class is an abstract utility class for launching and running Java processes.

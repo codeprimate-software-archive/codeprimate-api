@@ -49,15 +49,14 @@
 
   <properties>
     <easymock.version>3.2</easymock.version>
-    <h2.version>1.3.168</h2.version>
     <hibernate.version>4.3.1.Final</hibernate.version>
     <hsqldb.version>1.8.0.10</hsqldb.version>
     <jmock.version>2.6.0</jmock.version>
     <junit.version>4.11</junit.version>
     <mockito.version>1.9.5</mockito.version>
     <multithreadedtc.version>1.01</multithreadedtc.version>
-    <spring.version>3.2.11.RELEASE</spring.version>
-    <spring-data-commons.version>1.9.0.RELEASE</spring-data-commons.version>
+    <spring.version>3.2.12.RELEASE</spring.version>
+    <spring-data-commons.version>1.9.1.RELEASE</spring-data-commons.version>
     <spring-data-jpa.version>1.6.0.RELEASE</spring-data-jpa.version>
   </properties>
 
@@ -191,14 +190,6 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>${hibernate.version}</version>
-    </dependency>
-    -->
-    <!-- H2 -->
-    <!--
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>${h2.version}</version>
     </dependency>
     -->
     <!-- HSQLDB -->
