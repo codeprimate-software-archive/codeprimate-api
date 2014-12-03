@@ -18,11 +18,13 @@ package org.codeprimate.lang.concurrent;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import edu.umd.cs.mtc.MultithreadedTestCase;
 import edu.umd.cs.mtc.TestFramework;
 
+import org.codeprimate.lang.concurrent.ThreadUtils.CompletableTask;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
@@ -160,6 +162,11 @@ public class ThreadUtilsTest {
       assertTick(0);
 
       Thread.currentThread().setName("Interrupting Thread");
+      ThreadUtils.waitFor(TimeUnit.SECONDS.toMillis(5)).checkEvery(500, TimeUnit.MILLISECONDS).on(new CompletableTask() {
+        @Override public boolean isComplete() {
+          return (sleeperThread != null);
+        }
+      });
       sleeperThread.interrupt();
     }
 
