@@ -22,7 +22,7 @@
   <groupId>org.codeprimate</groupId>
   <artifactId>cp-core</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0.RELEASE</version>
+  <version>1.0.1.BUILD-SNAPSHOT</version>
 
   <name>cp-core</name>
   <description>
