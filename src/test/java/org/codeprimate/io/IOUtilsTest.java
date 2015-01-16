@@ -61,7 +61,7 @@ public class IOUtilsTest {
 
   /**
    * Gets a fully-qualified path anchored at root.
-   * <p/>
+   *
    * @param pathElements a String array containing the elements of the path.
    * @return a fully-qualified pathname as a String value.
    */
@@ -219,12 +219,12 @@ public class IOUtilsTest {
     IOUtils.toByteArray(mockIn);
   }
 
-  @Test(expected = AssertionError.class)
+  @Test(expected = NullPointerException.class)
   public void testToByteArrayWithNull() throws IOException {
     try {
       IOUtils.toByteArray(null);
     }
-    catch (AssertionError expected) {
+    catch (NullPointerException expected) {
       assertEquals("The input stream to read bytes from cannot be null!", expected.getMessage());
       throw expected;
     }

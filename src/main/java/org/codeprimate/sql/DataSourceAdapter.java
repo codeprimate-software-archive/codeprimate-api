@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 /**
- * The DataSourceAdapter class is an implementation of the javax.sql.DataSource interface throwing
+ * The DataSourceAdapter class is an abstract implementation of the javax.sql.DataSource interface throwing
  * UnsupportedOperationExceptions for all data source operations.
  *
  * @author John J. Blum
@@ -33,7 +33,7 @@ import javax.sql.DataSource;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public class DataSourceAdapter implements DataSource {
+public abstract class DataSourceAdapter implements DataSource {
 
   protected static final String UNSUPPORTED_OPERATION_EXCEPTION_MESSAGE = "Not Implemented!";
 

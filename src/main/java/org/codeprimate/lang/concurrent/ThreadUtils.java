@@ -19,6 +19,7 @@ package org.codeprimate.lang.concurrent;
 import java.util.concurrent.TimeUnit;
 
 import org.codeprimate.lang.Assert;
+import org.codeprimate.lang.ObjectUtils;
 
 /**
  * The ThreadUtils class is an abstract utility class for interacting with Threads.
@@ -197,11 +198,7 @@ public abstract class ThreadUtils {
     }
 
     public TimeUnit getIntervalTimeUnit() {
-      return defaultIfNull(intervalTimeUnit, getDurationTimeUnit());
-    }
-
-    private static <T> T defaultIfNull(final T value, final T defaultValue) {
-      return (value != null ? value : defaultValue);
+      return ObjectUtils.defaultIfNull(intervalTimeUnit, getDurationTimeUnit());
     }
 
     public WaitTask waitFor(final long duration) {
@@ -211,7 +208,7 @@ public abstract class ThreadUtils {
     public WaitTask waitFor(final long duration, final TimeUnit durationTimeUnit) {
       Assert.legalArgument(duration > 0, String.format("'Duration' (%1$d) must be greater than 0!", duration));
       this.duration = duration;
-      this.durationTimeUnit = defaultIfNull(durationTimeUnit, DEFAULT_TIME_UNIT);
+      this.durationTimeUnit = ObjectUtils.defaultIfNull(durationTimeUnit, DEFAULT_TIME_UNIT);
       return this;
     }
 
@@ -224,7 +221,7 @@ public abstract class ThreadUtils {
     }
 
     public WaitTask checkEvery(final long interval, final TimeUnit intervalTimeUnit) {
-      this.intervalTimeUnit = defaultIfNull(intervalTimeUnit, DEFAULT_TIME_UNIT);
+      this.intervalTimeUnit = ObjectUtils.defaultIfNull(intervalTimeUnit, DEFAULT_TIME_UNIT);
 
       Assert.legalArgument(isValidInterval(interval, intervalTimeUnit), String.format(
         "'Interval' (%1$d %2$s) must be greater than 0 and less than equal to 'duration' (%3$d %4$s)!",

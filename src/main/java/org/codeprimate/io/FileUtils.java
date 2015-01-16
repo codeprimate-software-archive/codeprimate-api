@@ -82,6 +82,23 @@ public abstract class FileUtils extends IOUtils {
     return filename;
   }
 
+  /**
+   * Gets the location of the specified file system resource identified by the pathname.
+   *
+   * @param pathname a String indicating location and name of a file system resource.
+   * @return the location of the specified file system resource.
+   */
+  public static String getFilePath(final String pathname) {
+    String path = pathname;
+
+    if (StringUtils.hasText(path)) {
+      int separatorIndex = path.lastIndexOf(File.separator);
+      path = (separatorIndex != 1 ? path.substring(0, separatorIndex) : path);
+    }
+
+    return path;
+  }
+
   public static boolean exists(final File file) {
     return (file != null && file.exists());
   }
@@ -109,8 +126,6 @@ public abstract class FileUtils extends IOUtils {
   public static String read(final File file) throws IOException {
     Assert.legalArgument(isFile(file), String.format(
       "The File reference (%1$s) from which to read the contents is not a valid file!", file));
-
-    assert file != null;
 
     BufferedReader fileReader = new BufferedReader(new FileReader(file));
 

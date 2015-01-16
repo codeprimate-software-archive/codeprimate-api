@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 
+import org.codeprimate.lang.Assert;
 import org.codeprimate.lang.ObjectUtils;
 
 /**
@@ -103,7 +104,7 @@ public abstract class IOUtils {
    * ClassLoader.
    * 
    * @param objBytes an array of bytes constituting the serialized form of the Object.
-   * @param loader the ClassLoader used to resolve the Class type of the serialized Object.
+   * @param classLoader the ClassLoader used to resolve the Class type of the serialized Object.
    * @return a Serializable Object from the array of bytes.
    * @throws ClassNotFoundException if the Class type of the serialized Object cannot be resolved by the specified
    * ClassLoader.
@@ -116,13 +117,13 @@ public abstract class IOUtils {
    * @see java.io.ObjectInputStream
    * @see java.io.Serializable
    */
-  public static Object deserializeObject(final byte[] objBytes, final ClassLoader loader)
+  public static Object deserializeObject(final byte[] objBytes, final ClassLoader classLoader)
     throws IOException, ClassNotFoundException
   {
     ObjectInputStream objIn = null;
 
     try {
-      objIn = new ClassLoaderObjectInputStream(new ByteArrayInputStream(objBytes), loader);
+      objIn = new ClassLoaderObjectInputStream(new ByteArrayInputStream(objBytes), classLoader);
       return objIn.readObject();
     }
     finally {
@@ -168,7 +169,7 @@ public abstract class IOUtils {
    * @see java.io.InputStream
    */
   public static byte[] toByteArray(final InputStream in) throws IOException {
-    assert in != null : "The input stream to read bytes from cannot be null!";
+    Assert.notNull(in, "The input stream to read bytes from cannot be null!");
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     byte[] buffer = new byte[BUFFER_SIZE];
@@ -198,15 +199,15 @@ public abstract class IOUtils {
    */
   protected static class ClassLoaderObjectInputStream extends ObjectInputStream {
 
-    private final ClassLoader loader;
+    private final ClassLoader classLoader;
 
-    public ClassLoaderObjectInputStream(final InputStream in, final ClassLoader loader) throws IOException {
+    public ClassLoaderObjectInputStream(final InputStream in, final ClassLoader classLoader) throws IOException {
       super(in);
-      this.loader = ObjectUtils.defaultIfNull(loader, Thread.currentThread().getContextClassLoader());
+      this.classLoader = ObjectUtils.defaultIfNull(classLoader, Thread.currentThread().getContextClassLoader());
     }
 
     protected ClassLoader getClassLoader() {
-      return loader;
+      return classLoader;
     }
 
     @Override

@@ -88,10 +88,10 @@ public class ProcessWrapper implements Initable {
   }
 
   public void init() {
-    newThread("Process OUT Stream Reader", newProcessInputStreamReader(process.getInputStream())).start();
+    newThread("Process OUT Stream Reader", newProcessInputStreamReader(getProcess().getInputStream())).start();
 
     if (!isRedirectingErrorStream()) {
-      newThread("Process ERR Stream Reader", newProcessInputStreamReader(process.getErrorStream())).start();
+      newThread("Process ERR Stream Reader", newProcessInputStreamReader(getProcess().getErrorStream())).start();
     }
 
     initialized.set(true);
@@ -161,12 +161,16 @@ public class ProcessWrapper implements Initable {
     }
   }
 
+  public Process getProcess() {
+    return process;
+  }
+
   public boolean isRedirectingErrorStream() {
     return processConfiguration.isRedirectingErrorStream();
   }
 
   public boolean isRunning() {
-    return ProcessUtils.isRunning(this.process);
+    return ProcessUtils.isRunning(getProcess());
   }
 
   public File getWorkingDirectory() {
@@ -174,7 +178,7 @@ public class ProcessWrapper implements Initable {
   }
 
   public int exitValue() {
-    return process.exitValue();
+    return getProcess().exitValue();
   }
 
   public int safeExitValue() {
@@ -220,7 +224,7 @@ public class ProcessWrapper implements Initable {
 
   public void signalStop() {
     try {
-      ProcessUtils.signalStop(this.process);
+      ProcessUtils.signalStop(getProcess());
     }
     catch (IOException e) {
       log.warning(String.format("Failed to signal the process (%1$d) to stop!", safeGetPid()));
@@ -247,8 +251,8 @@ public class ProcessWrapper implements Initable {
       try {
         Future<Integer> futureExitValue = executorService.submit(new Callable<Integer>() {
           @Override public Integer call() throws Exception {
-            process.destroy();
-            int exitValue = process.waitFor();
+            getProcess().destroy();
+            int exitValue = getProcess().waitFor();
             exited.set(true);
             return exitValue;
           }

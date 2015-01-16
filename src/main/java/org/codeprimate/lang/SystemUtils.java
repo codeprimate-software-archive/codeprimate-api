@@ -67,52 +67,14 @@ public abstract class SystemUtils {
   }
 
   /**
-   * Utility method to determine whether the Java application process is executing on the Java HotSpot VM.
-   * Client or Server VM does not matter.
-   *
-   * @return a boolean value indicating whether the Java application process is executing on the Java HotSpot VM.
-   * @see #isJVM(String)
-   */
-  public static boolean isHotSpotJVM() {
-    return isJVM(ORACLE_HOTSPOT_JVM_NAME);
-  }
-
-  /**
-   * Utility method to determine whether the Java application process is executing on the IBM J9 VM.
-   *
-   * @return a boolean value indicating whether the Java application process is executing on the IBM J9 VM.
-   * @see #isJVM(String)
-   */
-  public static boolean isJ9JVM() {
-    return isJVM(IBM_J9_JVM_NAME);
-  }
-
-  /**
-   * Utility method to determine whether the Java application process is executing on the Oracle JRockit VM.
-   * Client or Server VM does not matter.
-   *
-   * @return a boolean value indicating whether the Java application process is executing on the Oracle JRockit VM.
-   * @see #isJVM(String)
-   */
-  public static boolean isJRockitJVM() {
-    return isJVM(ORACLE_JROCKIT_JVM_NAME);
-  }
-
-  // @see java.lang.System#getProperty(String) with "java.vm.name".
-  private static boolean isJVM(final String expectedJvmName) {
-    String jvmName = System.getProperty("java.vm.name");
-    return (jvmName != null && jvmName.contains(expectedJvmName));
-  }
-
-  /**
    * Utility method to determine whether the Java application process is executing on the Apple JVM.
    *
    * @return a boolean value indicating whether the Java application process is executing and running
    * on the Apple JVM.
-   * @see #isJvmVendor(String)
+   * @see #isJvmMake(String)
    */
   public static boolean isAppleJVM() {
-    return isJvmVendor(APPLE_JVM_VENDOR);
+    return isJvmMake(APPLE_JVM_VENDOR);
   }
 
   /**
@@ -120,16 +82,54 @@ public abstract class SystemUtils {
    *
    * @return a boolean value indicating whether the Java application process is executing and running
    * on the Oracle JVM.
-   * @see #isJvmVendor(String)
+   * @see #isJvmMake(String)
    */
   public static boolean isOracleJVM() {
-    return isJvmVendor(ORACLE_JVM_VENDOR);
+    return isJvmMake(ORACLE_JVM_VENDOR);
   }
 
   // @see java.lang.System#getProperty(String) with 'java.vm.vendor'.
-  private static boolean isJvmVendor(final String expectedJvmVendor) {
+  private static boolean isJvmMake(final String expectedJvmVendor) {
     String jvmVendor = System.getProperty("java.vm.vendor");
     return (jvmVendor != null && jvmVendor.contains(expectedJvmVendor));
+  }
+
+  /**
+   * Utility method to determine whether the Java application process is executing on the Java HotSpot VM.
+   * Client or Server VM does not matter.
+   *
+   * @return a boolean value indicating whether the Java application process is executing on the Java HotSpot VM.
+   * @see #isJvmModel(String)
+   */
+  public static boolean isHotSpotJVM() {
+    return isJvmModel(ORACLE_HOTSPOT_JVM_NAME);
+  }
+
+  /**
+   * Utility method to determine whether the Java application process is executing on the IBM J9 VM.
+   *
+   * @return a boolean value indicating whether the Java application process is executing on the IBM J9 VM.
+   * @see #isJvmModel(String)
+   */
+  public static boolean isJ9JVM() {
+    return isJvmModel(IBM_J9_JVM_NAME);
+  }
+
+  /**
+   * Utility method to determine whether the Java application process is executing on the Oracle JRockit VM.
+   * Client or Server VM does not matter.
+   *
+   * @return a boolean value indicating whether the Java application process is executing on the Oracle JRockit VM.
+   * @see #isJvmModel(String)
+   */
+  public static boolean isJRockitJVM() {
+    return isJvmModel(ORACLE_JROCKIT_JVM_NAME);
+  }
+
+  // @see java.lang.System#getProperty(String) with "java.vm.name".
+  private static boolean isJvmModel(final String expectedJvmName) {
+    String jvmName = System.getProperty("java.vm.name");
+    return (jvmName != null && jvmName.contains(expectedJvmName));
   }
 
   /**

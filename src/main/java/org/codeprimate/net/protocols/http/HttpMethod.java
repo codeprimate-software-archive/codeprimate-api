@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package org.codeprimate.lang;
+package org.codeprimate.net.protocols.http;
 
 /**
- * The Assert class is an abstract utility class for making assertions (validations) and is a more portable replacement
- * for Java's assert facility.
+ * The HttpMethod enum is an enumeration of all HTTP protocol methods (POST, GET, PUT, DELETE, HEADERS, etc).
  *
  * @author John J. Blum
- * @since 1.0.0
+ * @since 1.1.0
  */
 @SuppressWarnings("unused")
-public abstract class Assert {
+public enum HttpMethod {
+  CONNECT,
+  DELETE,
+  GET,
+  HEAD,
+  OPTIONS,
+  POST,
+  PUT,
+  TRACE;
 
-  public static void legalArgument(final boolean valid, final String message) {
-    if (!valid) {
-      throw new IllegalArgumentException(message);
+  public static HttpMethod valueOfIgnoreCase(final String httpMethodName) {
+    for (HttpMethod httpMethod : values()) {
+      if (httpMethod.name().equalsIgnoreCase(httpMethodName)) {
+        return httpMethod;
+      }
     }
-  }
 
-  public static void legalState(final boolean valid, final String message) {
-    if (!valid) {
-      throw new IllegalStateException(message);
-    }
-  }
-
-  public static void notNull(final Object obj, final String message) {
-    if (obj == null) {
-      throw new NullPointerException(message);
-    }
+    return null;
   }
 
 }

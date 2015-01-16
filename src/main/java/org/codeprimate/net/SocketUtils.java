@@ -29,7 +29,7 @@ import java.net.Socket;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public abstract class SocketUtils {
+public abstract class SocketUtils extends NetworkUtils {
 
   /**
    * Closes the specified Socket silently ignoring any IOException, guarding against null Socket references.

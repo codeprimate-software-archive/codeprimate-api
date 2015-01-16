@@ -106,7 +106,8 @@ public abstract class FileSystemUtils extends FileUtils {
   }
 
   public static boolean deleteRecursive(final File path) {
-    assert path != null;
+    Assert.notNull(path, "The file system path to delete cannot be null!");
+
     boolean success = true;
 
     if (isDirectory(path)) {
@@ -141,7 +142,7 @@ public abstract class FileSystemUtils extends FileUtils {
   }
 
   private static File[] safeListFiles(final File directory, final FileFilter fileFilter) {
-    File[] files = (directory != null ? directory.listFiles(fileFilter) : new File[0]);
+    File[] files = (directory != null ? directory.listFiles(fileFilter) : null);
     return (files != null ? files : new File[0]);
   }
 

@@ -24,18 +24,19 @@ import java.util.Properties;
  * The PropertyUtils class is an abstract utility class for working with Properties.
  *
  * @author John J. Blum
+ * @see java.util.Map
  * @see java.util.Properties
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
 public abstract class PropertyUtils {
 
-  public static Properties createProperties(final Map<String, String> map) {
+  public static Properties createProperties(final Map<String, ?> map) {
     Properties properties = new Properties();
 
     if (!CollectionUtils.isEmpty(map)) {
-      for (Entry<String, String> entry : map.entrySet()) {
-        properties.setProperty(entry.getKey(), entry.getValue());
+      for (Entry<String, ?> entry : map.entrySet()) {
+        properties.setProperty(entry.getKey(), String.valueOf(entry.getValue()));
       }
     }
 

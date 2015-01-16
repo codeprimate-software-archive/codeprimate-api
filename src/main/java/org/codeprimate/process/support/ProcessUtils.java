@@ -103,6 +103,10 @@ public abstract class ProcessUtils {
     }
   }
 
+  public static boolean isRunning(final ProcessWrapper processWrapper) {
+    return isRunning(processWrapper.getProcess());
+  }
+
   public static int findAndReadPid(final File workingDirectory) {
     Assert.legalArgument(FileUtils.isDirectory(workingDirectory), String.format(
       "The file system pathname (%1$s) expected to contain a PID file is not a valid directory!",
@@ -154,7 +158,7 @@ public abstract class ProcessUtils {
   }
 
   public static void kill(final int processId) {
-    String killCommand = String.format("%1$s %2$d", (SystemUtils.isWindows() ? "taskkill /F /PID" : "kill -9"),
+    String killCommand = String.format("%1$s %2$d", (SystemUtils.isWindows() ? "taskkill /F /PID" : "kill -KILL"),
       processId);
 
     try {
@@ -214,6 +218,10 @@ public abstract class ProcessUtils {
       processOutputStream.write(TERM_TOKEN.concat(StringUtils.LINE_SEPARATOR).getBytes());
       processOutputStream.flush();
     }
+  }
+
+  public static void signalStop(final ProcessWrapper processWrapper) throws IOException {
+    signalStop(processWrapper.getProcess());
   }
 
   public static void waitForStopSignal() {

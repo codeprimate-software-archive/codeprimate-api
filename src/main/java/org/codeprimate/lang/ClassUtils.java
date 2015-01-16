@@ -115,7 +115,7 @@ public abstract class ClassUtils {
 
     if (types != null) {
       for (Class type : types) {
-        condition &= !type.isInstance(obj);
+        condition &= (type == null || !type.isInstance(obj));
       }
     }
 
