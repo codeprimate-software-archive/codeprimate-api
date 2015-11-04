@@ -38,6 +38,25 @@ import org.codeprimate.lang.StringUtils;
 @SuppressWarnings("unused")
 public abstract class FileUtils extends IOUtils {
 
+  /**
+   * Verifies that the specified pathname is valid and actually exists in the file system on localhost.  The pathname
+   * is considered valid if it is not null, empty or blank and exists in the file system as a file path (which could
+   * represent a file or a directory).
+   *
+   * @param pathname a String indicating the file path in the file system on localhost.
+   * @return the pathname if valid and it exits.
+   * @throws java.io.FileNotFoundException if the pathname is invalid or does not exist in the file system on localhost.
+   * @see #exists(String)
+   * @see java.io.File#exists()
+   */
+  public static String assertExists(final String pathname) throws FileNotFoundException {
+    if (exists(pathname)) {
+      return pathname;
+    }
+
+    throw new FileNotFoundException(String.format("Pathname (%1$s) could not be found!", pathname));
+  }
+
   public static boolean createDirectory(final File path) {
     return (path != null && (path.isDirectory() || path.mkdirs()));
   }
@@ -178,25 +197,6 @@ public abstract class FileUtils extends IOUtils {
     catch (IOException e) {
       return file.getAbsolutePath();
     }
-  }
-
-  /**
-   * Verifies that the specified pathname is valid and actually exists in the file system on localhost.  The pathname
-   * is considered valid if it is not null, empty or blank and exists in the file system as a file path (which could
-   * represent a file or a directory).
-   *
-   * @param pathname a String indicating the file path in the file system on localhost.
-   * @return the pathname if valid and it exits.
-   * @throws java.io.FileNotFoundException if the pathname is invalid or does not exist in the file system on localhost.
-   * @see #exists(String)
-   * @see java.io.File#exists()
-   */
-  public static String verifyExists(final String pathname) throws FileNotFoundException {
-    if (exists(pathname)) {
-      return pathname;
-    }
-
-    throw new FileNotFoundException(String.format("Pathname (%1$s) could not be found!", pathname));
   }
 
   public static void write(final File file, final String contents) throws IOException {

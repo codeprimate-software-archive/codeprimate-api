@@ -17,6 +17,7 @@
 package org.codeprimate.lang.concurrent;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -24,13 +25,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import edu.umd.cs.mtc.MultithreadedTestCase;
 import edu.umd.cs.mtc.TestFramework;
 
-import org.codeprimate.lang.concurrent.ThreadUtils.CompletableTask;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * The ThreadUtilsTest class is a test suite of test cases for testing the contract and functionality of the ThreadUtils
@@ -44,76 +42,55 @@ import org.junit.Test;
  * @see edu.umd.cs.mtc.TestFramework
  * @since 1.0.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ThreadUtilsTest {
 
-  protected Mockery mockContext;
-
-  @Before
-  public void setup() {
-    mockContext = new Mockery() {{
-      setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-  }
-
-  @After
-  public void tearDown() {
-    mockContext.assertIsSatisfied();
-  }
+  @Mock
+  private Thread mockThread;
 
   @Test
-  public void testGetThreadNameWithNull() {
+  public void getThreadNameWithNull() {
     assertNull(ThreadUtils.getName(null));
   }
 
   @Test
-  public void testGetThreadNameWithThread() {
+  public void getThreadNameWithThread() {
     assertNotNull(ThreadUtils.getName(Thread.currentThread()));
   }
 
   @Test
-  public void testInterruptWithNullThread() {
+  public void interruptWithNullThread() {
     ThreadUtils.interrupt(null);
   }
 
   @Test
-  public void testInterruptWithNonNullThread() {
-    final Thread mockThread = mockContext.mock(Thread.class, "Interrupted Thread");
-
-    mockContext.checking(new Expectations() {{
-      oneOf(mockThread).interrupt();
-    }});
-
+  public void interruptWithNonNullThread() {
     ThreadUtils.interrupt(mockThread);
+
+    verify(mockThread, times(1)).interrupt();
   }
 
   @Test
-  public void testIsAlive() {
+  public void isAlive() {
     assertTrue(ThreadUtils.isAlive(Thread.currentThread()));
   }
 
   @Test
-  public void testIsAliveWithNullThread() {
+  public void isAliveWithNullThread() {
     assertFalse(ThreadUtils.isAlive(null));
   }
 
   @Test
-  public void testIsAliveWithUnstartedThread() {
-    final Thread thread = new Thread(new Runnable() {
-      public void run() {
-      }
-    });
+  public void isAliveWithNonStartedThread() {
+    Thread thread = new Thread(() -> {});
     assertFalse(ThreadUtils.isAlive(thread));
   }
 
   @Test
-  public void testIsAliveWithStoppedThread() throws InterruptedException {
-    final AtomicBoolean ran = new AtomicBoolean(false);
+  public void isAliveWithStoppedThread() throws InterruptedException {
+    AtomicBoolean ran = new AtomicBoolean(false);
 
-    final Thread thread = new Thread(new Runnable() {
-      public void run() {
-        ran.set(true);
-      }
-    });
+    Thread thread = new Thread(() -> ran.set(true));
 
     thread.start();
     thread.join(50);
@@ -123,7 +100,7 @@ public class ThreadUtilsTest {
   }
 
   @Test
-  public void testSleep() {
+  public void sleep() {
     final long t0 = System.currentTimeMillis();
     final long sleepDuration = ThreadUtils.sleep(500);
     final long t1 = System.currentTimeMillis();
@@ -133,7 +110,7 @@ public class ThreadUtilsTest {
   }
 
   @Test
-  public void testSleepWithInterrupt() throws Throwable {
+  public void sleepWithInterrupt() throws Throwable {
     TestFramework.runOnce(new SleepInterruptedMultithreadedTestCase(5 * 1000));
   }
 
@@ -162,11 +139,7 @@ public class ThreadUtilsTest {
       assertTick(0);
 
       Thread.currentThread().setName("Interrupting Thread");
-      ThreadUtils.waitFor(TimeUnit.SECONDS.toMillis(5)).checkEvery(500, TimeUnit.MILLISECONDS).on(new CompletableTask() {
-        @Override public boolean isComplete() {
-          return (sleeperThread != null);
-        }
-      });
+      ThreadUtils.waitFor(TimeUnit.SECONDS.toMillis(5)).checkEvery(500, TimeUnit.MILLISECONDS).on(() -> sleeperThread != null);
       sleeperThread.interrupt();
     }
 

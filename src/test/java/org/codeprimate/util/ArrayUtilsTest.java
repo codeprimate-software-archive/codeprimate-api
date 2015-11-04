@@ -30,6 +30,11 @@ import org.junit.Test;
  */
 public class ArrayUtilsTest {
 
+  @SafeVarargs
+  protected static <T> T[] toArray(T... array) {
+    return array;
+  }
+
   @Test
   @SuppressWarnings("null")
   public void testGetElementAtIndex() {
@@ -52,22 +57,22 @@ public class ArrayUtilsTest {
 
   @Test
   public void testGetFirst() {
-    assertEquals("first", ArrayUtils.getFirst("first", "second", "third"));
-    assertEquals("null", ArrayUtils.getFirst("null", "nil", null));
-    assertEquals("test", ArrayUtils.getFirst("test"));
-    assertNull(ArrayUtils.getFirst((Object[]) null));
+    assertEquals("first", ArrayUtils.getFirst(toArray("first", "second", "third")));
+    assertEquals("null", ArrayUtils.getFirst(toArray("null", "nil", null)));
+    assertEquals("test", ArrayUtils.getFirst(toArray("test")));
+    assertNull(ArrayUtils.getFirst(null));
     assertNull(ArrayUtils.getFirst(new Object[0]));
-    assertNull(ArrayUtils.getFirst(null, null, null));
+    assertNull(ArrayUtils.getFirst(toArray(null, null, null)));
   }
 
   @Test
   public void testGetLast() {
-    assertEquals("third", ArrayUtils.getLast("first", "second", "third"));
-    assertNull(ArrayUtils.getLast("null", "nil", null));
-    assertEquals("test", ArrayUtils.getLast("test"));
-    assertNull(ArrayUtils.getLast((Object[]) null));
+    assertEquals("third", ArrayUtils.getLast(toArray("first", "second", "third")));
+    assertNull(ArrayUtils.getLast(toArray("null", "nil", null)));
+    assertEquals("test", ArrayUtils.getLast(toArray("test")));
+    assertNull(ArrayUtils.getLast(null));
     assertNull(ArrayUtils.getLast(new Object[0]));
-    assertNull(ArrayUtils.getLast(null, null, null));
+    assertNull(ArrayUtils.getLast(toArray(null, null, null)));
   }
 
   @Test

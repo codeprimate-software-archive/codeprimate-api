@@ -34,45 +34,42 @@ import org.junit.Test;
 public class SystemUtilsTest {
 
   @Test
-  public void testIsJavaVersionAtLeast() {
-    assertTrue(SystemUtils.isJavaVersionAtLeast("1.6"));
-    assertTrue(SystemUtils.isJavaVersionAtLeast("1.6.0_1"));
-    assertTrue(SystemUtils.isJavaVersionAtLeast("1.7"));
-    // note, the expected version value should be set to the next version of the Java Runtime Environment (JRE)
-    assertFalse(SystemUtils.isJavaVersionAtLeast("1.8"));
+  public void isJavaVersionAtLeastJava8() {
+    assertTrue(String.format("Expected Java version (1.8.0_65); but was (%1$s)", System.getProperty("java.version")),
+      SystemUtils.isJavaVersionAtLeast("1.8.0_65"));
   }
 
   @Test
-  public void testIsHotSpotVM() {
+  public void isHotSpotVM() {
     final boolean expected = ManagementFactory.getRuntimeMXBean().getVmName().contains(SystemUtils.ORACLE_HOTSPOT_JVM_NAME);
     assertEquals(expected, SystemUtils.isHotSpotJVM());
   }
 
   @Test
-  public void testIsJ9VM() {
+  public void isJ9VM() {
     final boolean expected = ManagementFactory.getRuntimeMXBean().getVmName().contains(SystemUtils.IBM_J9_JVM_NAME);
     assertEquals(expected, SystemUtils.isJ9JVM());
   }
 
   @Test
-  public void testIsJRockitVM() {
+  public void isJRockitVM() {
     final boolean expected = ManagementFactory.getRuntimeMXBean().getVmName().contains(SystemUtils.ORACLE_JROCKIT_JVM_NAME);
     assertEquals(expected, SystemUtils.isJRockitJVM());
   }
 
   @Test
-  public void testIsLinux() {
+  public void isLinux() {
     final boolean expected = ManagementFactory.getOperatingSystemMXBean().getName().contains(SystemUtils.LINUX_OS_NAME);
     assertEquals(expected, SystemUtils.isLinux());
   }
   @Test
-  public void testIsMacOSX() {
+  public void isMacOSX() {
     final boolean expected = ManagementFactory.getOperatingSystemMXBean().getName().contains(SystemUtils.MAC_OSX_NAME);
     assertEquals(expected, SystemUtils.isMacOSX());
   }
 
   @Test
-  public void testIsWindows() throws Exception {
+  public void isWindows() throws Exception {
     final boolean expected = ManagementFactory.getOperatingSystemMXBean().getName().contains(SystemUtils.WINDOWS_OS_NAME);
     assertEquals(expected, SystemUtils.isWindows());
   }

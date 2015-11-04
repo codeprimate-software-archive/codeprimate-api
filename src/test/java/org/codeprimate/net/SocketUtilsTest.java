@@ -16,18 +16,18 @@
 
 package org.codeprimate.net;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * The SocketUtilsTest class is a test suite of test cases testing the contract and functionality of the SocketUtils
@@ -39,86 +39,49 @@ import org.junit.Test;
  * @see org.junit.Test
  * @since 1.0.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class SocketUtilsTest {
 
-  private Mockery mockContext;
+  @Mock
+  private Socket mockSocket;
 
-  @Before
-  public void setup() {
-    mockContext = new Mockery() {{
-      setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-  }
+  @Mock
+  private ServerSocket mockServerSocket;
 
-  @After
-  public void tearDown() {
-    mockContext.assertIsSatisfied();
+  @Test
+  public void closeSocketIsSuccessful() throws IOException {
+    assertThat(SocketUtils.close(mockSocket), is(true));
+    verify(mockSocket, times(1)).close();
   }
 
   @Test
-  public void testCloseSocket() throws IOException {
-    final Socket mockSocket = mockContext.mock(Socket.class, "closeSocketTest");
-
-    mockContext.checking(new Expectations() {{
-      oneOf(mockSocket).close();
-    }});
-
-    assertTrue(SocketUtils.close(mockSocket));
+  public void closeSocketIgnoresIOException() throws IOException {
+    doThrow(new IOException("test")).when(mockSocket).close();
+    assertThat(SocketUtils.close(mockSocket), is(false));
+    verify(mockSocket, times(1)).close();
   }
 
   @Test
-  public void testCloseSocketThrowsIOException() throws IOException {
-    final Socket mockSocket = mockContext.mock(Socket.class, "closeSocketThrowsIOExceptionTest");
-
-    mockContext.checking(new Expectations() {{
-      oneOf(mockSocket).close();
-      will(throwException(new IOException("test")));
-    }});
-
-    try {
-      assertFalse(SocketUtils.close(mockSocket));
-    }
-    catch (Throwable t) {
-      fail("Calling close on a Socket using SocketUtils threw an unexpected Throwable (" + t + ")!");
-    }
+  public void closeSocketWithNull() {
+    assertThat(SocketUtils.close((Socket) null), is(false));
   }
 
   @Test
-  public void testCloseSocketWithNull() {
-    assertFalse(SocketUtils.close((Socket) null));
-  }
-
-  @Test
-  public void testCloseServerSocket() throws IOException {
-    final ServerSocket mockServerSocket = mockContext.mock(ServerSocket.class, "closeServerSocketTest");
-
-    mockContext.checking(new Expectations() {{
-      oneOf(mockServerSocket).close();
-    }});
-
-    assertTrue(SocketUtils.close(mockServerSocket));
+  public void closeServerSocketIsSuccessful() throws IOException {
+    assertThat(SocketUtils.close(mockServerSocket), is(true));
+    verify(mockServerSocket, times(1)).close();
   }
 
   @Test
   public void testCloseServerSocketThrowsIOException() throws IOException {
-    final ServerSocket mockServerSocket = mockContext.mock(ServerSocket.class, "closeServerSocketThrowsIOExceptionTest");
-
-    mockContext.checking(new Expectations() {{
-      oneOf(mockServerSocket).close();
-      will(throwException(new IOException("test")));
-    }});
-
-    try {
-      assertFalse(SocketUtils.close(mockServerSocket));
-    }
-    catch (Throwable t) {
-      fail("Calling close on a ServerSocket using SocketUtils threw an unexpected Throwable (" + t + ")!");
-    }
+    doThrow(new IOException("test")).when(mockServerSocket).close();
+    assertThat(SocketUtils.close(mockServerSocket), is(false));
+    verify(mockServerSocket, times(1)).close();
   }
 
   @Test
   public void testCloseServerSocketWithNull() {
-    assertFalse(SocketUtils.close((ServerSocket) null));
+    assertThat(SocketUtils.close((ServerSocket) null), is(false));
   }
 
 }

@@ -41,7 +41,7 @@ import org.codeprimate.lang.ObjectUtils;
 @SuppressWarnings("unused")
 public abstract class IOUtils {
 
-  public static final int BUFFER_SIZE = 8192;
+  public static final int BUFFER_SIZE = 16384;
 
   /**
    * Invokes the close method on any class instance implementing the Closeable interface, such as InputStreams

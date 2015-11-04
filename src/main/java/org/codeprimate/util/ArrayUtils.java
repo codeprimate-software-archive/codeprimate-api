@@ -67,7 +67,7 @@ public abstract class ArrayUtils {
    * @return the first element from the array or null if either the array reference is null or the array length is 0.
    * @see #getLast(Object[])
    */
-  public static <T> T getFirst(final T... array) {
+  public static <T> T getFirst(final T[] array) {
     return (!isEmpty(array) ? array[0] : null);
   }
 
@@ -79,7 +79,7 @@ public abstract class ArrayUtils {
    * @return the last element from the array or null if either the array reference is null or the array length is 0.
    * @see #getFirst(Object[])
    */
-  public static <T> T getLast(final T... array) {
+  public static <T> T getLast(final T[] array) {
     return (!isEmpty(array) ? array[array.length - 1] : null);
   }
 
@@ -91,7 +91,20 @@ public abstract class ArrayUtils {
    * @return a boolean value indicating whether the given array is empty or not.
    */
   public static boolean isEmpty(final Object[] array) {
-    return (array == null || array.length == 0);
+    return (length(array) == 0);
+  }
+
+  public static int length(final Object[] array) {
+    return (array != null ? array.length : 0);
+  }
+
+  public static Object[] nullSafeArray(final Object[] array) {
+    return nullSafeArray(array, Object.class);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T[] nullSafeArray(final T[] array, final Class<T> componentType) {
+    return (array != null ? array : (T[]) java.lang.reflect.Array.newInstance(componentType, 0));
   }
 
   /**

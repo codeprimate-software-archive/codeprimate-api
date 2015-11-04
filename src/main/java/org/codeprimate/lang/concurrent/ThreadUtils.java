@@ -141,6 +141,25 @@ public abstract class ThreadUtils {
   }
 
   /**
+   * Causes the current Thread to pause for a certain amount of time, measure in milliseconds.
+   *
+   * @param milliseconds the number of milliseconds to cause the current Thread to pause.
+   * @see java.lang.System#currentTimeMillis()
+   * @see java.lang.Thread#sleep(long)
+   */
+  protected static void pause(final long milliseconds) {
+    final long timeout = (System.currentTimeMillis() + milliseconds);
+
+    while (System.currentTimeMillis() < timeout) {
+      try {
+        Thread.sleep(Math.min(milliseconds, TimeUnit.MILLISECONDS.toMillis(500)));
+      }
+      catch (InterruptedException ignore) {
+      }
+    }
+  }
+
+  /**
    * Causes the current Thread to sleep for the specified number of milliseconds.  If the current Thread is interrupted
    * during sleep, the interrupt is ignored and the duration, in milliseconds, of the completed sleep is returned.
    * 
@@ -169,7 +188,7 @@ public abstract class ThreadUtils {
     return new WaitTask().waitFor(duration, timeUnit);
   }
 
-  public static interface CompletableTask {
+  public interface CompletableTask {
     boolean isComplete();
   }
 

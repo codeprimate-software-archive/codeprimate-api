@@ -27,7 +27,6 @@ import java.util.Calendar;
 import org.codeprimate.io.IOUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +52,6 @@ public class SerializableObjectHttpMessageConverterTest {
   @Before
   public void setUp() {
     mockContext = new Mockery();
-    mockContext.setImposteriser(ClassImposteriser.INSTANCE);
   }
 
   @After

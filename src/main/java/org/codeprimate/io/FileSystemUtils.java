@@ -55,7 +55,7 @@ public abstract class FileSystemUtils extends FileUtils {
    * @return the path elements appended to base pathname.
    * @see java.io.File#separator
    */
-  public static String appendToPath(String basePathname, final String... pathElements) {
+  public static String appendToPath(String basePathname, String... pathElements) {
     if (pathElements != null) {
       basePathname = StringUtils.defaultIfBlank(basePathname, File.separator);
 
@@ -77,7 +77,7 @@ public abstract class FileSystemUtils extends FileUtils {
    * @see #createPath(String[], String)
    * @see java.io.File#separator
    */
-  public static String createPath(final String... pathElements) {
+  public static String createPath(String... pathElements) {
     return createPath(pathElements, File.separator);
   }
 
@@ -93,7 +93,7 @@ public abstract class FileSystemUtils extends FileUtils {
    * @see #createPath(String...)
    * @see java.io.File#separator
    */
-  public static String createPath(final String[] pathElements, String separator) {
+  public static String createPath(String[] pathElements, String separator) {
     separator = ObjectUtils.defaultIfNull(separator, File.separator);
 
     StringBuilder buffer = new StringBuilder();
@@ -111,9 +111,7 @@ public abstract class FileSystemUtils extends FileUtils {
     boolean success = true;
 
     if (isDirectory(path)) {
-      File[] files = path.listFiles();
-      assert files != null;
-      for (File file : files) {
+      for (File file : safeListFiles(path)) {
         success &= deleteRecursive(file);
       }
     }
@@ -121,11 +119,23 @@ public abstract class FileSystemUtils extends FileUtils {
     return (path.delete() && success);
   }
 
+  public static File getRootRelativeToWorkingDirectoryOrPath(final File path) {
+    File localPath = path;
+
+    if (isDirectory(localPath)) {
+      while (localPath != null && !USER_WORKING_DIRECTORY.equals(localPath.getParentFile())) {
+        localPath = localPath.getParentFile();
+      }
+    }
+
+    return (localPath != null ? localPath : path);
+  }
+
   public static File[] listFiles(final File directory, FileFilter fileFilter) {
     Assert.legalArgument(isDirectory(directory), String.format("The File (%1$s) does not refer to a valid directory!",
       directory));
 
-    List<File> results = new ArrayList<File>();
+    List<File> results = new ArrayList<>();
 
     fileFilter = (fileFilter != null ? fileFilter : new FileOnlyFileFilter());
 
@@ -141,9 +151,23 @@ public abstract class FileSystemUtils extends FileUtils {
     return results.toArray(new File[results.size()]);
   }
 
+  private static File[] safeListFiles(final File directory) {
+    return safeListFiles(directory, AllFiles.INSTANCE);
+  }
+
   private static File[] safeListFiles(final File directory, final FileFilter fileFilter) {
     File[] files = (directory != null ? directory.listFiles(fileFilter) : null);
     return (files != null ? files : new File[0]);
+  }
+
+  public static final class AllFiles implements FileFilter {
+
+    public static final AllFiles INSTANCE = new AllFiles();
+
+    @Override
+    public boolean accept(final File pathname) {
+      return true;
+    }
   }
 
 }

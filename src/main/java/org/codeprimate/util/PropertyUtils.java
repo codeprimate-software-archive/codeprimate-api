@@ -19,6 +19,9 @@ package org.codeprimate.util;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
+
+import org.codeprimate.lang.Assert;
 
 /**
  * The PropertyUtils class is an abstract utility class for working with Properties.
@@ -57,6 +60,55 @@ public abstract class PropertyUtils {
     buffer.append("]");
 
     return buffer.toString();
+  }
+
+  public static PropertiesWrapper with(final Properties properties) {
+    return new PropertiesWrapper(properties);
+  }
+
+  public static class PropertiesWrapper {
+
+    private Properties properties;
+
+    public PropertiesWrapper(final Properties properties) {
+      Assert.notNull(properties, "Properties backing this wrapper must not be null");
+      this.properties = properties;
+    }
+
+    protected Properties getProperties() {
+      return properties;
+    }
+
+    public Properties asProperties() {
+      return getProperties();
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public PropertiesWrapper clone() {
+      this.properties = (Properties) this.properties.clone();
+      return this;
+    }
+
+    public PropertiesWrapper removeAll(final Object... propertyNames) {
+      for (Object propertyName : propertyNames) {
+        getProperties().remove(propertyName);
+      }
+
+      return this;
+    }
+
+    public PropertiesWrapper removeAll(final Properties target) {
+      Set<String> thesePropertyNames = getProperties().stringPropertyNames();
+      thesePropertyNames.retainAll(target.stringPropertyNames());
+      return removeAll(thesePropertyNames.toArray());
+    }
+
+    public PropertiesWrapper retainAll(final Properties target) {
+      Set<String> thesePropertyNames = getProperties().stringPropertyNames();
+      thesePropertyNames.removeAll(target.stringPropertyNames());
+      return removeAll(thesePropertyNames.toArray());
+    }
   }
 
 }
