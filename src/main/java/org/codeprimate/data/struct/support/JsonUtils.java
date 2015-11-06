@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.codeprimate.data.struct;
+package org.codeprimate.data.struct.support;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;

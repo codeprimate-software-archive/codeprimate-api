@@ -33,8 +33,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("unused")
 public class TimeUnitComparator implements Comparator<TimeUnit> {
 
-  private static final Map<TimeUnit, Integer> TIME_UNIT_VALUE_MAP =
-    new HashMap<TimeUnit, Integer>(TimeUnit.values().length + 1);
+  private static final Map<TimeUnit, Integer> TIME_UNIT_VALUE_MAP = new HashMap<>(TimeUnit.values().length + 1);
 
   static {
     int value = 0;

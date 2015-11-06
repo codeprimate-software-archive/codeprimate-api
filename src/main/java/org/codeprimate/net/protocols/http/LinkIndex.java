@@ -46,7 +46,7 @@ import org.codeprimate.lang.StringUtils;
 public class LinkIndex implements Iterable<Link> {
 
   @XmlElement(name = "link")
-  private final Set<Link> links = new TreeSet<Link>();
+  private final Set<Link> links = new TreeSet<>();
 
   public LinkIndex add(final Link link) {
     Assert.notNull(link, "The Link being added to this index cannot be null!");
@@ -83,7 +83,7 @@ public class LinkIndex implements Iterable<Link> {
   }
 
   public Link[] findAll(final String relation) {
-    List<Link> links = new ArrayList<Link>();
+    List<Link> links = new ArrayList<>();
 
     for (Link link : this) {
       if (link.getRelation().equalsIgnoreCase(relation)) {
@@ -108,17 +108,17 @@ public class LinkIndex implements Iterable<Link> {
   }
 
   public List<Link> toList() {
-    return new ArrayList<Link>(links);
+    return new ArrayList<>(links);
   }
 
   public Map<String, List<Link>> toMap() {
-    Map<String, List<Link>> links = new TreeMap<String, List<Link>>();
+    Map<String, List<Link>> links = new TreeMap<>();
 
     for (Link link : this) {
       List<Link> linksByRelation = links.get(link.getRelation());
 
       if (linksByRelation == null) {
-        linksByRelation = new ArrayList<Link>(size());
+        linksByRelation = new ArrayList<>(size());
         links.put(link.getRelation(), linksByRelation);
       }
 

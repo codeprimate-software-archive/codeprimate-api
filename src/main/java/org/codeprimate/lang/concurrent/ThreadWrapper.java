@@ -38,7 +38,7 @@ public class ThreadWrapper {
   }
 
   public ThreadWrapper(final Thread delegate) {
-    Assert.notNull(delegate, "The Thread wrapped by this wrapper must not be null!");
+    Assert.notNull(delegate, "The Thread to be wrapped must not be null!");
     this.thread = delegate;
   }
 
@@ -68,6 +68,10 @@ public class ThreadWrapper {
 
   public boolean isNonDaemon() {
     return !isDaemon();
+  }
+
+  public boolean isNotAlive() {
+    return !isAlive();
   }
 
   public boolean isRunnable() {

@@ -293,6 +293,7 @@ public abstract class StringUtils {
    * the String value of String.valueOf(value) is returned.
    * @see java.lang.String#valueOf(Object)
    */
+  @SuppressWarnings("all")
   public static String valueOf(final Object value, final String... defaultValues) {
     if (value != null) {
       return value.toString();
@@ -326,7 +327,7 @@ public abstract class StringUtils {
     StringBuilder buffer = new StringBuilder();
 
     int lineCount = 1;
-    int spaceIndex = -1;
+    int spaceIndex;
 
     // if indent is null, then do not indent the wrapped lines
     indent = valueOf(indent, EMPTY_STRING);

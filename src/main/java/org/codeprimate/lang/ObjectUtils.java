@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public abstract class ObjectUtils {
+public abstract class ObjectUtils extends ClassUtils {
 
   public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
@@ -41,6 +41,7 @@ public abstract class ObjectUtils {
    * @return the first non-null value from the array of values, otherwise return null if either the array or all
    * the elements in the array are null.
    */
+  @SafeVarargs
   public static <T> T defaultIfNull(T... values) {
     if (values != null) {
       for (T value : values) {
@@ -116,8 +117,9 @@ public abstract class ObjectUtils {
 
     if (args != null) {
       argTypes = new Class[args.length];
+
       for (int index = 0, size = args.length; index < size; index++) {
-        argTypes[index] = ClassUtils.getClass(args[index]);
+        argTypes[index] = getClass(args[index]);
       }
     }
 
@@ -139,9 +141,10 @@ public abstract class ObjectUtils {
 
     if (parameterTypes != null) {
       int index = 0;
+
       for (Class parameterType : parameterTypes) {
         methodSignature.append(index++ > 0 ? ", :" : ":");
-        methodSignature.append(ClassUtils.getSimpleName(parameterType));
+        methodSignature.append(getSimpleName(parameterType));
       }
     }
 

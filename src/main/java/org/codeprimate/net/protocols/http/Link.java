@@ -146,8 +146,8 @@ public class Link implements Comparable<Link>, Serializable {
 
   @Override
   public String toString() {
-    return String.format("{ class = %1$s, rel = %2$s, href = %3$s, method = %4$s }", getClass().getName(),
-      getRelation(), getHref(), getMethod());
+    return String.format("{ @type = %1$s, rel = %2$s, method = %3$s, href = %4$s }", getClass().getName(),
+      getRelation(), getMethod(), getHref());
   }
 
 }

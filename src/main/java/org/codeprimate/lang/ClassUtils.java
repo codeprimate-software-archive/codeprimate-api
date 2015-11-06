@@ -41,6 +41,7 @@ public abstract class ClassUtils {
    * @throws NullPointerException if className or RuntimeException is null.
    * @see java.lang.Class#forName(String)
    */
+  @SuppressWarnings("all")
   public static Class forName(final String className, final RuntimeException e) {
     try {
       return Class.forName(className);
