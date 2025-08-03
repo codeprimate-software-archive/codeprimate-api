@@ -45,7 +45,7 @@ public class PropertiesBuilder {
   }
 
   public PropertiesBuilder setProperty(final String propertyName, final String propertyValue) {
-    properties.setProperty(propertyName, propertyValue);
+    getProperties().setProperty(propertyName, propertyValue);
     return this;
   }
 

@@ -28,6 +28,7 @@ import org.codeprimate.lang.Assert;
  *
  * @author John J. Blum
  * @see java.util.Map
+ * @see java.util.Map.Entry
  * @see java.util.Properties
  * @since 1.0.0
  */
